@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{C2AD0FFB-9E0B-4FC2-84C8-BBD71984F272}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>SDLTest</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>msvcrt.lib</IgnoreSpecificDefaultLibraries>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="SDL\begin_code.h" />
+    <ClInclude Include="SDL\close_code.h" />
+    <ClInclude Include="SDL\SDL.h" />
+    <ClInclude Include="SDL\SDL_active.h" />
+    <ClInclude Include="SDL\SDL_audio.h" />
+    <ClInclude Include="SDL\SDL_byteorder.h" />
+    <ClInclude Include="SDL\SDL_cdrom.h" />
+    <ClInclude Include="SDL\SDL_config.h" />
+    <ClInclude Include="SDL\SDL_config_amiga.h" />
+    <ClInclude Include="SDL\SDL_config_dreamcast.h" />
+    <ClInclude Include="SDL\SDL_config_macos.h" />
+    <ClInclude Include="SDL\SDL_config_macosx.h" />
+    <ClInclude Include="SDL\SDL_config_minimal.h" />
+    <ClInclude Include="SDL\SDL_config_nds.h" />
+    <ClInclude Include="SDL\SDL_config_os2.h" />
+    <ClInclude Include="SDL\SDL_config_symbian.h" />
+    <ClInclude Include="SDL\SDL_config_win32.h" />
+    <ClInclude Include="SDL\SDL_copying.h" />
+    <ClInclude Include="SDL\SDL_cpuinfo.h" />
+    <ClInclude Include="SDL\SDL_endian.h" />
+    <ClInclude Include="SDL\SDL_error.h" />
+    <ClInclude Include="SDL\SDL_events.h" />
+    <ClInclude Include="SDL\SDL_getenv.h" />
+    <ClInclude Include="SDL\SDL_image.h" />
+    <ClInclude Include="SDL\SDL_joystick.h" />
+    <ClInclude Include="SDL\SDL_keyboard.h" />
+    <ClInclude Include="SDL\SDL_keysym.h" />
+    <ClInclude Include="SDL\SDL_loadso.h" />
+    <ClInclude Include="SDL\SDL_main.h" />
+    <ClInclude Include="SDL\SDL_mouse.h" />
+    <ClInclude Include="SDL\SDL_mutex.h" />
+    <ClInclude Include="SDL\SDL_name.h" />
+    <ClInclude Include="SDL\SDL_opengl.h" />
+    <ClInclude Include="SDL\SDL_platform.h" />
+    <ClInclude Include="SDL\SDL_quit.h" />
+    <ClInclude Include="SDL\SDL_rwops.h" />
+    <ClInclude Include="SDL\SDL_stdinc.h" />
+    <ClInclude Include="SDL\SDL_syswm.h" />
+    <ClInclude Include="SDL\SDL_thread.h" />
+    <ClInclude Include="SDL\SDL_timer.h" />
+    <ClInclude Include="SDL\SDL_ttf.h" />
+    <ClInclude Include="SDL\SDL_types.h" />
+    <ClInclude Include="SDL\SDL_version.h" />
+    <ClInclude Include="SDL\SDL_video.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
