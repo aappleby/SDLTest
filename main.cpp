@@ -34,6 +34,7 @@ double g_time = 0;
 double g_delta = 0;
 double g_smoothDelta = 0;
 
+bool g_drawText = true;
 bool g_quit;
 
 //------------------------------------------------------------------------------
@@ -61,6 +62,10 @@ void HandleKeyDown(int key)
 	case SDLK_q:
 		g_quit = true;
 		break;
+
+  case SDLK_t:
+    g_drawText = !g_drawText;
+    break;
 
 	default:
 		break;
@@ -223,18 +228,21 @@ void Draw()
 	// every time you call RenderText(), but I guess it's doing some garbage
 	// collection behind the scenes.
 
-	char buf[256];
-	sprintf_s(buf,sizeof(buf),"Hello World - time is %.2f, delta is %.2f", g_time, g_smoothDelta * 1000.0);
+  if(g_drawText)
+  {
+	  char buf[256];
+	  sprintf_s(buf,sizeof(buf),"Hello World - time is %.2f, delta is %.2f", g_time, g_smoothDelta * 1000.0);
 
-	SDL_Color textcolor1 = { 0xFF, 0xFF, 0xFF, 0xFF };
-	SDL_Color textcolor2 = { 0x00, 0x00, 0x00, 0x00 };
-	SDL_Surface* text = TTF_RenderText_Blended(g_font, buf, textcolor1);
+	  SDL_Color textcolor1 = { 0xFF, 0xFF, 0xFF, 0xFF };
+	  SDL_Color textcolor2 = { 0x00, 0x00, 0x00, 0x00 };
+	  SDL_Surface* text = TTF_RenderText_Blended(g_font, buf, textcolor1);
 
-	SDL_Rect text_rect;
-	text_rect.x = 10;
-	text_rect.y = 10;
-	SDL_BlitSurface(text, NULL, g_screen, &text_rect);
-	SDL_FreeSurface(text);
+	  SDL_Rect text_rect;
+	  text_rect.x = 10;
+	  text_rect.y = 10;
+	  SDL_BlitSurface(text, NULL, g_screen, &text_rect);
+	  SDL_FreeSurface(text);
+  }
 
 	// Drawing done, swap buffers
 	SDL_Flip( g_screen ); 
