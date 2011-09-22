@@ -13,10 +13,18 @@
 //------------------------------------------------------------------------------
 // Global resources
 
+const int NUM_BUTTONS = 16;
+const int BUTTON_SIZE = 64;  //pixels 
+
 SDL_Surface* g_screen = NULL;
 SDL_Surface* g_background = NULL; 
 SDL_Surface* g_cursor = NULL;
 SDL_Surface* g_ball = NULL;
+SDL_Surface* g_button0 = NULL;
+SDL_Surface* g_button1 = NULL; 
+
+SDL_Rect g_buttons_rect [NUM_BUTTONS];
+int g_button_state [NUM_BUTTONS] = {0};
 
 TTF_Font* g_font = NULL;
 
@@ -36,6 +44,8 @@ double g_smoothDelta = 0;
 
 bool g_drawText = true;
 bool g_quit;
+
+SDL_Surface *load_image_alpha( std::string filename );
 
 //------------------------------------------------------------------------------
 // Utility functions
@@ -72,6 +82,24 @@ void HandleKeyDown(int key)
 	}
 }
 
+void toggle_buttons( double x, double y )	
+{
+	//For each button
+	for( int i = 0; i < NUM_BUTTONS; i++ )
+	{
+		//Is the click on a button?
+		if( ( g_clickX > g_buttons_rect[i].x ) && ( g_clickX < g_buttons_rect[i].x + g_buttons_rect[i].w ) && 
+			( g_clickY > g_buttons_rect[i].y ) && ( g_clickY < g_buttons_rect[i].y + g_buttons_rect[i].h ) )
+		{
+			//Change state
+			if( g_button_state[i] == 0 )
+				g_button_state[i] = 1;
+			else
+				g_button_state[i] = 0;
+		}
+	}
+}
+
 void HandleEvents()
 {
 	SDL_Event event;
@@ -95,6 +123,9 @@ void HandleEvents()
 		case SDL_MOUSEBUTTONDOWN:
 			g_clickX = event.button.x;
 			g_clickY = event.button.y;
+
+			toggle_buttons( g_clickX, g_clickY );
+			
 			break;
 
 		default:
@@ -128,6 +159,46 @@ SDL_Surface *load_image_alpha( std::string filename )
 	return optimizedImage; 
 }
 
+void init_buttons()
+{
+	//Row1															
+	g_buttons_rect[0].x = Sint16( g_screen->w/2 - 2*BUTTON_SIZE );
+	g_buttons_rect[0].y = Sint16( g_screen->h/2 - 2*BUTTON_SIZE );
+	g_buttons_rect[1].x = Sint16( g_screen->w/2 - BUTTON_SIZE );
+	g_buttons_rect[1].y = Sint16( g_screen->h/2 - 2*BUTTON_SIZE );
+	g_buttons_rect[2].x = Sint16( g_screen->w/2 );
+	g_buttons_rect[2].y = Sint16( g_screen->h/2 - 2*BUTTON_SIZE );
+	g_buttons_rect[3].x = Sint16( g_screen->w/2 + BUTTON_SIZE );
+	g_buttons_rect[3].y = Sint16( g_screen->h/2 - 2*BUTTON_SIZE );
+	//Row2
+	g_buttons_rect[4].x = Sint16( g_screen->w/2 - 2*BUTTON_SIZE );
+	g_buttons_rect[4].y = Sint16( g_screen->h/2 - BUTTON_SIZE );
+	g_buttons_rect[5].x = Sint16( g_screen->w/2 - BUTTON_SIZE );
+	g_buttons_rect[5].y = Sint16( g_screen->h/2 - BUTTON_SIZE );
+	g_buttons_rect[6].x = Sint16( g_screen->w/2 );
+	g_buttons_rect[6].y = Sint16( g_screen->h/2 - BUTTON_SIZE );
+	g_buttons_rect[7].x = Sint16( g_screen->w/2 + BUTTON_SIZE );
+	g_buttons_rect[7].y = Sint16( g_screen->h/2 - BUTTON_SIZE );
+	//Row3
+	g_buttons_rect[8].x = Sint16( g_screen->w/2 - 2*BUTTON_SIZE );
+	g_buttons_rect[8].y = Sint16( g_screen->h/2 );
+	g_buttons_rect[9].x = Sint16( g_screen->w/2 - BUTTON_SIZE );
+	g_buttons_rect[9].y = Sint16( g_screen->h/2 );
+	g_buttons_rect[10].x = Sint16( g_screen->w/2 );
+	g_buttons_rect[10].y = Sint16( g_screen->h/2 );
+	g_buttons_rect[11].x = Sint16( g_screen->w/2 + BUTTON_SIZE );
+	g_buttons_rect[11].y = Sint16( g_screen->h/2 );
+	//Row4
+	g_buttons_rect[12].x = Sint16( g_screen->w/2 - 2*BUTTON_SIZE );
+	g_buttons_rect[12].y = Sint16( g_screen->h/2 + BUTTON_SIZE );
+	g_buttons_rect[13].x = Sint16( g_screen->w/2 - BUTTON_SIZE );
+	g_buttons_rect[13].y = Sint16( g_screen->h/2 + BUTTON_SIZE );
+	g_buttons_rect[14].x = Sint16( g_screen->w/2 );
+	g_buttons_rect[14].y = Sint16( g_screen->h/2 + BUTTON_SIZE );
+	g_buttons_rect[15].x = Sint16( g_screen->w/2 + BUTTON_SIZE );
+	g_buttons_rect[15].y = Sint16( g_screen->h/2 + BUTTON_SIZE );
+}
+
 void Startup()
 {
 	// set up the screen
@@ -138,22 +209,21 @@ void Startup()
 	g_background = load_image("background.png");
 	g_cursor = load_image_alpha("cursor.png");
 	g_ball = load_image_alpha("ball.png");
+	g_button0 = load_image_alpha("PinkCow.png");
+	g_button1 = load_image_alpha("Bull.png");
 
 	// load our fonts
 	TTF_Init();
 	g_font = TTF_OpenFont("Cursive standard Bold.ttf", 28);
 
 	// store our start time
-	__int64 now;
-	__int64 freq;
-	
-	QueryPerformanceCounter((LARGE_INTEGER*)&now);
-	QueryPerformanceFrequency((LARGE_INTEGER*)&freq);
-
 	g_startTime = getTime();
 
+	// setup buttons
+	init_buttons();
+
 	// and do other Windows-specific stuff
-	ShowCursor(false);
+	SDL_ShowCursor(false);
 
 	g_clickX = g_screen->w / 2;
 	g_clickY = g_screen->h / 2;
@@ -181,7 +251,6 @@ void Update()
 	g_time = time;
 
 	// Move the ball towards the click location.
-
 	double speed = 10;
 	double dx = (g_clickX - g_ballX) * speed * g_delta;
 	double dy = (g_clickY - g_ballY) * speed * g_delta;
@@ -213,6 +282,15 @@ void Draw()
 	obj_rect.h = 64;
 
 	SDL_BlitSurface( g_ball, NULL, g_screen, &obj_rect );
+
+	// Draw buttons
+	for( int i = 0; i < NUM_BUTTONS; i++ )
+	{
+		if( g_button_state[i] == 0 )
+			SDL_BlitSurface( g_button0, NULL, g_screen, &g_buttons_rect[i] );
+		else
+			SDL_BlitSurface( g_button1, NULL, g_screen, &g_buttons_rect[i] );
+	}
 
 	// Draw the cursor, shifting it a bit so it matches the Windows cursor
 	// position
